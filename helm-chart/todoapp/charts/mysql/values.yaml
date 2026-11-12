@@ -1,0 +1,38 @@
+namespace: mysql
+
+replicaCount: 2
+
+image:
+  repository: mysql
+  tag: "8.0"
+
+secrets:
+  MYSQL_ROOT_PASSWORD: "MTIzNA=="
+  MYSQL_USER: "YXBwX3VzZXI="
+  MYSQL_PASSWORD: "MTIzNA=="
+
+database: app_db
+
+storage: 2Gi
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    cpu: 500m
+    memory: 1Gi
+
+affinity:
+  nodeAffinity:
+    key: app
+    values:
+      - mysql
+  podAntiAffinity:
+    enabled: true
+
+tolerations:
+  - key: app
+    operator: Equal
+    value: mysql
+    effect: NoSchedule

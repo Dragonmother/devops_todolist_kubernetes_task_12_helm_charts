@@ -1,0 +1,62 @@
+﻿namespace: todoapp
+
+image:
+  repository: ikulyk404/todoapp
+  tag: "4.0.1"
+
+replicaCount: 2
+
+serviceAccount:
+  name: secrets-reader
+
+strategy:
+  maxSurge: 1
+  maxUnavailable: 1
+
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "150m"
+  limits:
+    memory: "256Mi"
+    cpu: "150m"
+
+secrets:
+  SECRET_KEY: "QGUyKHl4KXYmdGdoM19zPTB5amEtaSFkcGVieHN6XmRnNDd4KS1rJmtxXzN6Zio5ZSoK"
+  DB_NAME: "YXBwX2RiCg=="
+  DB_USER: "YXBwX3VzZXI="
+  DB_PASSWORD: "MTIzNA=="
+  DB_HOST: "bXlzcWwtMC5teXNxbC5teXNxbC5zdmMuY2x1c3Rlci5sb2NhbAo="
+
+config:
+  PYTHONUNBUFFERED: "1"
+
+affinity:
+  nodeAffinity:
+    key: app
+    values:
+      - todoapp
+
+hpa:
+  minReplicas: 2
+  maxReplicas: 5
+  cpuUtilization: 80
+  memoryUtilization: 80
+
+storage:
+  pv:
+    capacity: 1Gi
+  pvc:
+    requested: 1Gi
+
+mysql:
+  namespace: mysql
+  replicaCount: 2
+  image:
+    repository: mysql
+    tag: "8.0"
+  secrets:
+    MYSQL_ROOT_PASSWORD: "MTIzNA=="
+    MYSQL_USER: "YXBwX3VzZXI="
+    MYSQL_PASSWORD: "MTIzNA=="
+  storage: 2Gi
