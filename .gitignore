@@ -161,4 +161,4 @@ cython_debug/
 .idea/
 
 # Helm generated dependencies
-helm-chart/todoapp/charts/mysql-0.1.0.tgz
+**/charts/mysql-0.1.0.tgz

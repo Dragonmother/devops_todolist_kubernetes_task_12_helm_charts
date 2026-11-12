@@ -18,7 +18,7 @@ spec:
       labels:
         app: {{ .Chart.Name }}
     spec:
-      serviceAccountName: {{ .Values.serviceAccount.name }}
+      serviceAccountName: {{ .Chart.Name }}-{{ .Values.serviceAccount.name }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"

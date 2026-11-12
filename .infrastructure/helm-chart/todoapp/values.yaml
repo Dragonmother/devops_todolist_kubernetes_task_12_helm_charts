@@ -22,11 +22,11 @@ resources:
     cpu: "150m"
 
 secrets:
-  SECRET_KEY: "QGUyKHl4KXYmdGdoM19zPTB5amEtaSFkcGVieHN6XmRnNDd4KS1rJmtxXzN6Zio5ZSoK"
-  DB_NAME: "YXBwX2RiCg=="
-  DB_USER: "YXBwX3VzZXI="
-  DB_PASSWORD: "MTIzNA=="
-  DB_HOST: "bXlzcWwtMC5teXNxbC5teXNxbC5zdmMuY2x1c3Rlci5sb2NhbAo="
+  SECRET_KEY: "@e2(yx)v&tgh3_s=0yja-i!dpebxsz^dg47x)-k&kq_3zf*9e*"
+  DB_NAME: "app_db"
+  DB_USER: "app_user"
+  DB_PASSWORD: "1234"
+  DB_HOST: "mysql-0.mysql.mysql.svc.cluster.local"
 
 config:
   PYTHONUNBUFFERED: "1"
@@ -52,11 +52,36 @@ storage:
 mysql:
   namespace: mysql
   replicaCount: 2
+
   image:
     repository: mysql
     tag: "8.0"
+
   secrets:
-    MYSQL_ROOT_PASSWORD: "MTIzNA=="
-    MYSQL_USER: "YXBwX3VzZXI="
-    MYSQL_PASSWORD: "MTIzNA=="
+    MYSQL_ROOT_PASSWORD: "1234"
+    MYSQL_USER: "app_user"
+    MYSQL_PASSWORD: "1234"
+
   storage: 2Gi
+
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+
+  affinity:
+    nodeAffinity:
+      key: app
+      values:
+        - mysql
+    podAntiAffinity:
+      enabled: true
+
+  tolerations:
+    - key: app
+      operator: Equal
+      value: mysql
+      effect: NoSchedule
