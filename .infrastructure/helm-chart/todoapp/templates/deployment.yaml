@@ -74,8 +74,8 @@ spec:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-                - matchExpressions:
+              - matchExpressions:
                   - key: {{ .Values.affinity.nodeAffinity.key }}
                     operator: In
                     values:
-                      {{- toYaml .Values.affinity.nodeAffinity.values | nindent 22 }}
+                      {{ toYaml .Values.affinity.nodeAffinity.values | nindent 22 }}
